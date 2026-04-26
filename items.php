@@ -1,7 +1,7 @@
 <?php session_start();?>
 <?php include './includes/header.php'; ?>
 <?php
-session_start();
+
 
 //protect page
 if(!isset($_SESSION['user_id'])){

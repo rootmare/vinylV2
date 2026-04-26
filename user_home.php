@@ -1,7 +1,7 @@
 <?php session_start();?>
 <?php include 'includes/header.php'; ?>
 <?php
-session_start();
+
 if(!isset($_SESSION['user_id'])){
     header("Location: user_login.php");
     exit();

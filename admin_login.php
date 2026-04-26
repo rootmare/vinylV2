@@ -2,7 +2,7 @@
 <?php include 'includes/header.php'; ?>
 
 <?php
-session_start();
+
 echo "<script>console.log('Reached point load');</script>";
 
 $error = '';
