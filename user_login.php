@@ -16,12 +16,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
     }
     else{
-        $conn = new mysqli("localhost", "root", "", "customer_db");
-        
+            $host = getenv('MYSQLHOST');
+            $port = getenv('MYSQLPORT');
+            $user = getenv('MYSQLUSER');
+            $pass = getenv('MYSQLPASSWORD');
+            $db   = getenv('MYSQLDATABASE');
 
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
-        }
+            $conn = new mysqli($host, $user, $pass, $db, $port);
+    
+            if ($conn->connect_error) {
+                die("Connection failed: " . $conn->connect_error);
+            }
         $stmt = $conn->prepare("SELECT id, password FROM users WHERE username = ?");
         $stmt->bind_param("s", $username);
         $stmt->execute();

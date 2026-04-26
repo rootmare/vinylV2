@@ -26,11 +26,17 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
         $error = "Item name and category are required.";
     }
     else{
-        // database connection
-        $conn = new mysqli("localhost", "root", "", "customer_db");
+        $host = getenv('MYSQLHOST');
+        $port = getenv('MYSQLPORT');
+        $user = getenv('MYSQLUSER');
+        $pass = getenv('MYSQLPASSWORD');
+        $db   = getenv('MYSQLDATABASE');
 
-        if( $conn->connect_error){
-        die("database connection failed: ". $conn->connect_error);
+        $conn = new mysqli($host, $user, $pass, $db, $port);
+    
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
     }
 
     // Insert item

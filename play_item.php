@@ -14,11 +14,17 @@
 session_start();
 $page_title = 'play';
 
-$conn = new mysqli("localhost", "root", "", "customer_db");
+    $host = getenv('MYSQLHOST');
+    $port = getenv('MYSQLPORT');
+    $user = getenv('MYSQLUSER');
+    $pass = getenv('MYSQLPASSWORD');
+    $db   = getenv('MYSQLDATABASE');
 
-if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
-}
+    $conn = new mysqli($host, $user, $pass, $db, $port);
+    
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
 
 $item_id = $_GET['id'];
 echo "<script>console.log(" . $item_id . ");</script>";

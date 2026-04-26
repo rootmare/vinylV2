@@ -17,12 +17,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "<script>console.log('Reached point 4');</script>";
     }
     else{
-        $conn = new mysqli("localhost", "root", "", "customer_db");
-        echo "<script>console.log('Reached point 3');</script>";
+                
+        $host = getenv('MYSQLHOST');
+        $port = getenv('MYSQLPORT');
+        $user = getenv('MYSQLUSER');
+        $pass = getenv('MYSQLPASSWORD');
+        $db   = getenv('MYSQLDATABASE');
+
+        $conn = new mysqli($host, $user, $pass, $db, $port);
 
         if ($conn->connect_error) {
             die("Connection failed: " . $conn->connect_error);
         }
+
         $stmt = $conn->prepare("SELECT id, password FROM admin WHERE username = ?");
         $stmt->bind_param("s", $username);
         $stmt->execute();
