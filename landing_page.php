@@ -1,6 +1,7 @@
+<?php session_start();?>
 <?php include './includes/header.php'; ?>
 <?php
-session_start();
+    session_start();
 
 
 
@@ -18,18 +19,18 @@ session_start();
 
 
 
-$sql = "SELECT `image`, items.id, item_name, category, details, username, `value` FROM items INNER JOIN users ON items.created_by = users.id;";       
+    $sql = "SELECT `image`, items.id, item_name, category, details, username, `value` FROM items INNER JOIN users ON items.created_by = users.id;";       
 
-$stmt = $conn->prepare($sql);
+    $stmt = $conn->prepare($sql);
 
-if (!$stmt) {
-    die("Prepare failed: " . $conn->error);
-};
+    if (!$stmt) {
+        die("Prepare failed: " . $conn->error);
+    };
 
 
-$stmt->execute();
-$result = $stmt->get_result();
-$stmt->close();
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $stmt->close();
 ?>
 
 <main>

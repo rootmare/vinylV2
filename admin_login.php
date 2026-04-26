@@ -1,3 +1,4 @@
+<?php session_start();?>
 <?php include 'includes/header.php'; ?>
 
 <?php
@@ -17,7 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "<script>console.log('Reached point 4');</script>";
     }
     else{
-                
+
         $host = getenv('MYSQLHOST');
         $port = getenv('MYSQLPORT');
         $user = getenv('MYSQLUSER');

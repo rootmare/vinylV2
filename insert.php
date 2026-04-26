@@ -1,3 +1,4 @@
+<?php session_start();?>
 <?php
 // Connect to database
     $host = getenv('MYSQLHOST');
