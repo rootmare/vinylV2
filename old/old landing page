@@ -1,0 +1,112 @@
+<?php include './includes/header.php'; ?>
+<?php
+session_start();
+
+
+
+$conn = new mysqli("localhost", "root", "", "customer_db");
+
+if ($conn->connect_error) {
+    die("database connection failed: " . $conn->connect_error);
+}
+
+
+
+$sql = "SELECT `image`, items.id, item_name, category, details, username, `value` FROM items INNER JOIN users ON items.created_by = users.id;";       
+
+$stmt = $conn->prepare($sql);
+
+if (!$stmt) {
+    die("Prepare failed: " . $conn->error);
+};
+
+
+$stmt->execute();
+$result = $stmt->get_result();
+$stmt->close();
+?>
+
+<main>
+    <div id="top_box">
+        <!-- spacing -->
+        <div id="spacing">
+            <img src="./images/logo_music_online.jpg" alt="music online logo" id="logo">
+
+        </div>
+        <!-- searching -->
+        <div id="searching">
+            <form action="search_results.php" method="get" id="search_box">
+                <input type="text" id="item_name" name="item_name" placeholder="Search">
+            </form>
+        </div>
+        <!-- hereo for cat -->
+        <!-- login button -->
+        <div>
+            <a class='log_button' href='user_login.php'>Login</a>
+        </div>
+    </div>
+    <br>
+    <br>
+
+    <section class="customer-form">
+
+        <?php
+            if($result->num_rows > 0){
+                echo"
+                <table>
+                    <tr>
+                        <td>
+                            <strong>Item image<strong>
+                        </td>
+                        <td>
+                            <strong>Item name<strong>
+                        </td>
+                        <td>
+                            <strong>Category<strong>
+                        </td>
+                        <td>
+                            <strong>Details<strong>
+                        </td>
+                        <td>
+                            <strong>Value<strong>
+                        </td>
+                        <td>
+                           <strong>Play<strong>
+                        </td>
+                        <td>
+                            <strong>Buy<strong>
+                        </td>
+                    </tr>
+                ";
+                while($item = $result->fetch_assoc()){
+                    echo "<tr>";
+                    // you are working on table dispaly for the fetched data
+                    echo "<td><img class=\"item-image\" src=\"" . $item['image'] . "\" alt=\"" . $item['item_name'] . " cover image\" /></td>";
+                    // don't know why the back slashs are needed but without them the image won't show up
+                    echo "<td>".htmlspecialchars($item['item_name'])."</td>";
+                    echo "<td>".htmlspecialchars($item['category'])."</td>";
+                    echo "<td>".htmlspecialchars($item['details'])."</td>";
+                    echo "<td>£".htmlspecialchars($item['value'])."</td>";
+
+                    echo "<td><a class='edit_button'href='play_item.php?id=".htmlspecialchars($item['id'])."'>play</a> </td>";
+                    echo "<td><a class='edit_button'>buy</a></td>";// not to be implemented in this project but just to show the idea of how the page will look like
+                    echo "</tr>";
+                }
+                echo "</table>";
+                
+                
+
+            }
+            else{
+                echo "<p>You have not submitted any items yet.</p>";
+            }
+            
+            $conn->close();
+        ?>
+        
+    </section>
+</main>
+
+
+
+<?php include './includes/footer.php'; ?>   
