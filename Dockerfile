@@ -1,13 +1,14 @@
 FROM php:8.2-apache
 
-# Disable all MPMs and enable only prefork
-RUN a2dismod mpm_event || true && \
-    a2dismod mpm_worker || true && \
-    a2dismod mpm_prefork || true && \
+# Remove conflicting MPM modules at the conf level
+RUN rm -f /etc/apache2/mods-enabled/mpm_event.conf \
+          /etc/apache2/mods-enabled/mpm_event.load \
+          /etc/apache2/mods-enabled/mpm_worker.conf \
+          /etc/apache2/mods-enabled/mpm_worker.load && \
     a2enmod mpm_prefork
 
 # Install mysqli extension
-RUN docker-php-ext-install mysqli && docker-php-ext-enable mysqli
+RUN docker-php-ext-install mysqli
 
 # Enable Apache mod_rewrite
 RUN a2enmod rewrite
