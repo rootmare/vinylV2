@@ -3,11 +3,13 @@
 
 <?php
 
-        $host = getenv('MYSQLHOST');
-        $port = getenv('MYSQLPORT');
-        $user = getenv('MYSQLUSER');
-        $pass = getenv('MYSQLPASSWORD');
-        $db   = getenv('MYSQLDATABASE');
+        $host = getenv('DB_HOST');
+$port = intval(getenv('DB_PORT'));
+$user = getenv('DB_USER');
+$pass = getenv('DB_PASSWORD');
+$db   = getenv('DB_NAME');
+
+$conn = new mysqli($host, $user, $pass, $db, $port);
 
         $conn = new mysqli($host, $user, $pass, $db, $port);
 
